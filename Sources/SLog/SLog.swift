@@ -2,15 +2,6 @@ import Foundation
 
 public class SLog {
     private static var directoryURL = URL(fileURLWithPath: "SLogs", isDirectory: true)
-    private static var temporaryDirectoryURL: URL = {
-        guard let url = try? FileManager.default.url(for: .itemReplacementDirectory,
-                                                     in: .userDomainMask,
-                                                     appropriateFor: directoryURL,
-                                                     create: true) else {
-                                                        return SLog.directoryURL
-        }
-        return url
-    }()
     
     public enum LogLevel {
         case fatal
@@ -39,25 +30,10 @@ public class SLog {
         self.title = title
         self.shouldLogToConsole = shouldLogToConsole
     }
-    
-    deinit {
-        do {
-            
-            print("Moving temp from: \(SLog.temporaryDirectoryURL.absoluteString)")
-            print("To: \(SLog.directoryURL.absoluteString)")
-            
-            try FileManager.default.moveItem(at: SLog.temporaryDirectoryURL,
-                                             to: SLog.directoryURL)
-            
-            print("Logs moved to: \(SLog.directoryURL.absoluteString)")
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
 }
 
 public extension SLog {
-    func entry(item: () -> Any) {
+    func entry(_ item: () -> Any) {
         
         let logEntry = item()
         
@@ -84,15 +60,19 @@ extension SLog {
     }
     
     func log(itemToFile item: Any) {
-        guard let data = value(forLogItem: item).data(using: .utf8) else {
+        let fileURL = SLog.directoryURL.appendingPathComponent("\(fileName).log")
+        let previousLogEntry = (try? String(contentsOf: fileURL, encoding: .utf8)) ?? "SLog: \(title)" 
+        guard let data = "\(previousLogEntry)\(value(forLogItem: item))"
+                    .data(using: .utf8) else {
             return
         }
         
         do {
-            let fileURL = SLog.temporaryDirectoryURL.appendingPathComponent("\(fileName).log")
+            
             
             try data.write(to: fileURL)
             
+            print("Logged to: \(fileURL.absoluteString)")
         } catch {
             print(error.localizedDescription)
         }
