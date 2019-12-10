@@ -38,22 +38,6 @@ public class SLog {
         self.level = level
         self.title = title
         self.shouldLogToConsole = shouldLogToConsole
-        
-        
-        //        if let fileName = fileName {
-        //            let file = "\(fileName).log"
-        //            self.fileOutput = file
-        //            do {
-        //                print("Check: \(SLog.temporaryDirectoryURL.absoluteString)")
-        //                self.fileHandler = try FileHandle(forWritingTo: SLog.temporaryDirectoryURL.appendingPathComponent(file))
-        //            } catch {
-        //                print(error.localizedDescription)
-        //
-        //                if FileManager.default.createFile(atPath: SLog.temporaryDirectoryURL.appendingPathComponent(file).absoluteString, contents: nil, attributes: nil) {
-        //                    print("Did create file")
-        //                }
-        //            }
-        //        }
     }
     
     deinit {
