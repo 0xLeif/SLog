@@ -3,10 +3,11 @@ import XCTest
 
 final class SLogTests: XCTestCase {
     func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(SLog().text, "Hello, World!")
+        let log = SLog(level: .error, title: "error", fileName: "error", shouldLogToConsole: true)
+        
+        log.entry {
+            "asdfasldkjfhalsk"
+        }
     }
 
     static var allTests = [
