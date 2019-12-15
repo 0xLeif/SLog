@@ -3,7 +3,7 @@ import XCTest
 
 final class SLogTests: XCTestCase {
     func testExample() {
-       let logger = SLogger()
+        let logger = SLogger()
         
         logger.fatal.entry {
             "Could not unwrap value!"

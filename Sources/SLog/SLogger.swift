@@ -14,7 +14,7 @@ public struct SLogger {
                 successTitle: String = "Success Logs",
                 infoTitle: String = "Information Logs",
                 debugTitle: String = "Debug Logs",
-                fileNamePrefix: String?) {
+                fileNamePrefix: String = "yourapp") {
         
         fatal = SLog.fatal(title: fatalTitle, fileName: "\(fileNamePrefix).fatallogs", shouldLogToConsole: true)
         error = SLog.error(title: fatalTitle, fileName: "\(fileNamePrefix).errorlogs", shouldLogToConsole: true)
