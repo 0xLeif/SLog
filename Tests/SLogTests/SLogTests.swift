@@ -38,8 +38,7 @@ final class SLogTests: XCTestCase {
             "Value For the First Cell",
             "v1",
             324,
-            true,
-            CGColor.black
+            true
         )
     }
 

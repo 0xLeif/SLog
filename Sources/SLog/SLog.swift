@@ -1,9 +1,6 @@
 import Foundation
 
 public class SLog {
-    #if os(macOS) || os(iOS)
-    	private static var directoryURL = (try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)) ?? URL(fileURLWithPath: "SLogs")
-   #endif 
 
     public enum LogLevel {
         case fatal
@@ -51,8 +48,6 @@ public class SLog {
         self.title = title
         self.fileOutput = fileName
         self.shouldLogToConsole = shouldLogToConsole
-        
-        self.log(itemToFile: "[\(Date().timeIntervalSince1970)] SLog: \(title)")
     }
 }
 
@@ -128,7 +123,6 @@ public extension SLog {
         let logEntry = item()
         
         log(itemToConsole: logEntry)
-        log(itemToFile: logEntry)
     }
     
     func entry(_ items: Any...) {
@@ -136,9 +130,6 @@ public extension SLog {
         let logEntry = items.map { "\($0) " }.reduce("", +)
         
         log(itemToConsole: logEntry)
-        #if os(macOS) || os(iOS)
-        log(itemToFile: logEntry)
-        #endif
     }
 }
 
@@ -159,20 +150,4 @@ extension SLog {
         print("\(level.logLabel): \(value(forLogItem: item))")
     }
     
-    func log(itemToFile item: Any) {
-        let fileURL = SLog.directoryURL.appendingPathComponent("\(fileName).log")
-        let previousLogEntry = (try? String(contentsOf: fileURL, encoding: .utf8)) ?? ""
-        let logEntry = "\(value(forLogItem: item))"
-        guard let data = "\(previousLogEntry)\(logEntry)\n"
-            .data(using: .utf8) else {
-                return
-        }
-        
-        do {
-            try data.write(to: fileURL)
-        } catch {
-            print("Error: Attempted to log to file (\(fileURL.absoluteString))")
-            print(error.localizedDescription)
-        }
-    }
 }
