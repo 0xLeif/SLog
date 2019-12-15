@@ -1,8 +1,10 @@
 import Foundation
 
 public class SLog {
-    private static var directoryURL = (try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)) ?? URL(fileURLWithPath: "SLogs")
-    
+    #if os(macOS) || os(iOS)
+    	private static var directoryURL = (try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)) ?? URL(fileURLWithPath: "SLogs")
+   #endif 
+
     public enum LogLevel {
         case fatal
         case error
