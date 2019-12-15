@@ -38,7 +38,7 @@ public class SLog {
     let shouldLogToConsole: Bool
     
     private var fileName: String {
-        fileOutput ?? title
+        return fileOutput ?? title
     }
     
     public init(level: LogLevel,
