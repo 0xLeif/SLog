@@ -134,7 +134,9 @@ public extension SLog {
         let logEntry = items.map { "\($0) " }.reduce("", +)
         
         log(itemToConsole: logEntry)
+        #if os(macOS) || os(iOS)
         log(itemToFile: logEntry)
+        #endif
     }
 }
 
